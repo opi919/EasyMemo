@@ -1,8 +1,8 @@
 @extends('admin::layouts.app')
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="col-md-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-8">
                 <table class="table">
                     <thead>
                         <tr>
@@ -39,11 +39,12 @@
                     </tbody>
                 </table>
             </div>
-            
-            <div class="col-md-7 p-2" style="background-color:#f5f5f5;">
+            </div>
+            <div class="row">
+            <div class="col-12 p-2" style="background-color:#f5f5f5;">
                 <div id="errorMsg" class="text-center">
                 </div>
-                <form action="{{ route('invoice.export_pdf') }}" method="POST">
+                <form action="{{ route('invoice.export_pdf',$order_id) }}" method="POST">
                     @csrf
                 <div class="p-4">
                     <div class="text-center">
@@ -79,13 +80,6 @@
                         <div class="form-group">
                             <label>Enter Address</label>
                             <input class="form-control" type ="text" name="customer_address" required>
-                        </div>
-                        <div class="form-group">
-                            <select name="status" id="" class="form-control" required>
-                                <option value="0">Set Status</option>
-                                <option value="due">due</option>
-                                <option value="paid">paid</option>
-                            </select>
                         </div>
                     </div>
                     <div class="row">
@@ -130,7 +124,8 @@
                             </tr>
                         </table>
                     </div>
-                    <input type="submit" class="btn btn-success" style="float: right;">
+                    <input type="submit" class="btn btn-success" style="float: right;" value="Print" name="action">
+                    <input type="submit" class="btn btn-success mr-2" style="float: right;" value="Download" name="action">
                 </div>
             </form>
             </div>
@@ -195,9 +190,9 @@
                         '<td>' + '<input type="hidden" value="'+count+'" name="count[]">' +count + '</td>' +
                         '<td>' + '<input type="hidden" value="'+name+'" name="name[]">'+name+ + '</td>' +
                         '<td>' + '<input type="hidden" value="'+quantity+'" name="quantity[]">' +quantity + '</td>' +
-                        '<td>' + '<input type="hidden" value="'+price+'" name="price[]">' + price + '</td>' +
+                        '<td>' + '<input type="number" style="display:none;" value="'+price+'" name="price[]">' + price + '</td>' +
                         '<td>' + '<input type="hidden" value="'+taxAmount+'" name="tax[]">' + taxAmount.toFixed(1) + '</td>' +
-                        '<td id="total">' + '<input type="hidden" value="'+total.toFixed()+'" name="total[]">' +total.toFixed() + '</td>' +
+                        '<td id="total">' + '<input type="number" style="display:none;" value="'+total.toFixed()+'" name="total[]">' +total.toFixed() + '</td>' +
                         '</tr>';
                     $('#new').append(newRow);
                     subTotal +=total+taxAmount; 

@@ -15,24 +15,23 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $data['products'] = Products::all();
-    return view('dashboard',$data);
+        $data['products'] = Products::paginate(10);
+        return view('admin::product.index',$data);
+    }
+    public function add(){
+        return view('admin::product.add');
     }
     public function store(Request $request){
-       
-        $request->validate([
-            'product_name' => 'required',
-            'price' => 'required',
-            'tax' => 'required',
-        ]);
-        // dd($request->product_name);
-        $data = $request->all();
-        Products::create($data);
+        $data = new Products;
+        $data->product_name = $request->product_name;
+        $data->price = $request->product_price;
+        $data->tax = $request->product_tax;
+        $data->save();
         $notification = array(
             'message' => 'Product Added Successfully',
             'alert-type' => 'success'
         );
-        return redirect('/dashboard')->with($notification);
+        return redirect()->route('dashboard')->with($notification);
     }
     public function edit($id){
         $data['product'] = Products::find($id);

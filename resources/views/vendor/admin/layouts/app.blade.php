@@ -10,17 +10,17 @@
 
     <title>{{ __('EasyPanel') }} - {{ $title ?? __('Home') }}</title>
 
-    {{--Scripts which must load before full loading--}}
+    {{-- Scripts which must load before full loading --}}
     @style('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css')
     @script('https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
     @script('https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
     @script('https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.2/dist/alpine.min.js')
     @script("/assets/admin/js/ckeditor.min.js")
 
-    {{--Styles--}}
+    {{-- Styles --}}
     @livewireStyles
     @style("/assets/admin/css/style.min.css")
-    @if(config('easy_panel.rtl_mode'))
+    @if (config('easy_panel.rtl_mode'))
         @style("/assets/admin/css/rtl.css")
         @style("https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v27.2.1/dist/font-face.css")
     @endif
@@ -34,53 +34,51 @@
 
 <body>
 
-<div class="preloader">
-    <div class="lds-ripple">
-        <div class="lds-pos"></div>
-        <div class="lds-pos"></div>
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
     </div>
-</div>
 
-<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-     data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
 
-    <!-- Topbar header - style you can find in pages.scss -->
-    <header class="topbar" data-navbarbg="skin6">
-        <nav class="navbar top-navbar navbar-expand-md">
-            <div class="navbar-header" data-logobg="skin6">
-                <!-- This is for the sidebar toggle which is visible on mobile only -->
-                <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
-                        class="ti-menu ti-close"></i></a>
+        <!-- Topbar header - style you can find in pages.scss -->
+        <header class="topbar" data-navbarbg="skin6">
+            <nav class="navbar top-navbar navbar-expand-md">
+                <div class="navbar-header" data-logobg="skin6">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                            class="ti-menu ti-close"></i></a>
 
-                <!-- Logo -->
-                <div class="navbar-brand">
-                    <a href="@route(getRouteName().'.home')">
-                        <span class="logo-text">EasyMemo</span>
-                    </a>
+                    <!-- Logo -->
+                    <div class="navbar-brand">
+                        <a href="@route(getRouteName().'.home')">
+                            <span class="logo-text">EasyMemo</span>
+                        </a>
+                    </div>
+                    <!-- End Logo -->
+
+                    <!-- ============================================================== -->
+                    <!-- Toggle which is visible on mobile only -->
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+                        data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
+                            class="ti-more"></i></a>
                 </div>
-                <!-- End Logo -->
-
                 <!-- ============================================================== -->
-                <!-- Toggle which is visible on mobile only -->
-                <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
-                   data-toggle="collapse" data-target="#navbarSupportedContent"
-                   aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
-                        class="ti-more"></i></a>
-            </div>
-            <!-- ============================================================== -->
-            <!-- End Logo -->
-            <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
 
-            <div class="navbar-collapse collapse" id="navbarSupportedContent">
-
-
-                <!-- Right side toggle and nav items -->
-                <ul class="navbar-nav float-right">
+                <div class="navbar-collapse collapse d-flex justify-content-center" id="navbarSupportedContent">
+                    <!-- Right side toggle and nav items -->
+                    {{-- <ul class="navbar-nav float-right">
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link" href="javascript:void(0)">
                             <div class="customize-input">
                                 <select id="langChanger" class="form-control bg-white custom-shadow border-0 h-25" style="border-radius: 6px">
-                                    @foreach(\EasyPanel\Services\LangManager::get() as $key => $value)
+                                    @foreach (\EasyPanel\Services\LangManager::get() as $key => $value)
                                         <option value="{{ $key }}" {{ \Illuminate\Support\Facades\App::getLocale() === $key ? 'selected' : '' }}>{{ $value }}</option>
                                     @endforeach
                                 </select>
@@ -110,92 +108,187 @@
                         </div>
                     </li>
                     <!-- User profile and search -->
-                </ul>
+                </ul> --}}
+                    <input type="search" name="live_search" id="live_search" class="form-control px-3"
+                        placeholder="Search" style="border-radius:100rem;width:50%;">
+                </div>
+            </nav>
+        </header>
+        <!-- End Topbar header -->
+
+        <!-- Left Sidebar -->
+        @include('admin::layouts.sidebar')
+        <!-- End Left Sidebar -->
+
+
+        <!-- Page wrapper  -->
+        <div class="page-wrapper">
+
+            <!-- Container -->
+            <div class="container-fluid" id="container-fluid">
+
+                @yield('content')
+
             </div>
-        </nav>
-    </header>
-    <!-- End Topbar header -->
-
-    <!-- Left Sidebar -->
-@include('admin::layouts.sidebar')
-<!-- End Left Sidebar -->
-
-
-    <!-- Page wrapper  -->
-    <div class="page-wrapper">
-
-        <!-- Container -->
-        <div class="container-fluid">
-
-            @yield('content')
-
+            <div class="container-fluid" id="live_search_list">
+                <div class="live_search_list">
+                    <table class="table" id="search_table">
+                        <h2 id="error" class="text-danger text-center"></h2>
+                        <tbody id="search_new"></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- End Container fluid  -->
         </div>
-        <!-- End Container fluid  -->
     </div>
-</div>
-<!-- End Wrapper -->
+    <!-- End Wrapper -->
 
-<!-- All Scripts -->
-@script("/assets/admin/js/jquery.min.js")
-@script("/assets/admin/js/popper.min.js")
-@script("/assets/admin/js/bootstrap.min.js")
-@script("/assets/admin/js/perfect-scrollbar.jquery.min.js")
-@script("/assets/admin/js/app-style-switcher.min.js")
-@script("/assets/admin/js/feather.min.js")
-@script("/assets/admin/js/sidebarmenu.min.js")
-@script("/assets/admin/js/custom.min.js")
+    <!-- All Scripts -->
+    @script("/assets/admin/js/jquery.min.js")
+    @script("/assets/admin/js/popper.min.js")
+    @script("/assets/admin/js/bootstrap.min.js")
+    @script("/assets/admin/js/perfect-scrollbar.jquery.min.js")
+    @script("/assets/admin/js/app-style-switcher.min.js")
+    @script("/assets/admin/js/feather.min.js")
+    @script("/assets/admin/js/sidebarmenu.min.js")
+    @script("/assets/admin/js/custom.min.js")
 
-@livewireScripts
-<script>
+    @livewireScripts
+    <script>
+        window.addEventListener('show-message', function(event) {
+            let type = event.detail.type;
+            let message = event.detail.message;
+            if (document.querySelector('.notification')) {
+                document.querySelector('.notification').remove();
+            }
+            let body = document.querySelector('#main-wrapper');
+            let child = document.createElement('div');
+            child.classList.add('notification', 'notification-' + type, 'animate__animated',
+                'animate__jackInTheBox');
+            child.innerHTML = `<p>${message}</p>`;
 
-    window.addEventListener('show-message', function (event) {
-        let type = event.detail.type;
-        let message = event.detail.message;
-        if (document.querySelector('.notification')) {
-            document.querySelector('.notification').remove();
-        }
-        let body = document.querySelector('#main-wrapper');
-        let child = document.createElement('div');
-        child.classList.add('notification', 'notification-' + type, 'animate__animated', 'animate__jackInTheBox');
-        child.innerHTML = `<p>${message}</p>`;
+            body.appendChild(child);
 
-        body.appendChild(child);
+            setTimeout(function() {
+                body.removeChild(child);
+            }, 3000);
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        @if (Session('message'))
+            toastr.options.closeButton = true;
+            toastr.options.showMethod = 'slideDown';
+            toastr.options.hideMethod = 'slideUp';
+            toastr.options.closeMethod = 'slideUp';
+            toastr.success("{{ Session('message') }}")
+        @endif
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $('#delete').click(function(e) {
+            e.preventDefault();
+            let url = $(this).attr('href');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            })
+        });
+    </script>
+    <script>
+        $('#live_search').on('keyup', function() {
+            var data = $(this).val();
+            // console.log(data);
+            if (data == '') {
+                $('#container-fluid').show();
+                $('#live_search_list').hide();
+            } else {
+                $.ajax({
+                    type: 'get',
+                    url: '/live-search/{data}',
+                    data: {
+                        'data': data
+                    },
+                    success: function(data) {
+                        $('#container-fluid').hide();
+                        $('#live_search_list').show();
+                        // console.log(data)
+                        $('#search_new').empty();
+                        $('#error').empty();
+                        if (data.status) {
+                            $('#error').html(data.message);
+                        } else {
+                            $.each(data, function(index, value) {
+                                $.each(value, function(index2, value2) {
+                                    if (value2.name) {
+                                        $('#search_new').append(
+                                            '<tr>' +
+                                            '<td>' + value2.order_no +
+                                            '</td>' +
+                                            '<td>' + value2.name +
+                                            '</td>' +
+                                            '<td>' + value2.email +
+                                            '</td>' +
+                                            '<td>' + value2.phone +
+                                            '</td>' +
+                                            '<td>' + value2.address +
+                                            '</td>' +
+                                            '<td>' + value2.order_date +
+                                            '</td>' +
+                                            '<td>' + value2.order_time +
+                                            '</td>' +
+                                            '</tr>'
+                                        );
+                                    } 
+                                    else if(value2.customer_name){
+                                        $('#search_new').append(
+                                        '<tr>' +
+                                            '<td>' + value2.order_no +
+                                            '</td>' +
+                                            '<td>' + value2.customer_name +
+                                            '</td>' +
+                                            '<td>' + value2.customer_email +
+                                            '</td>' +
+                                            '<td>' + value2.customer_phone +
+                                            '</td>' +
+                                            '<td>' + value2.customer_address +
+                                            '</td>' +
+                                            '<td>' + value2.amount +
+                                            '</td>' +
+                                            '</tr>'
+                                        );
+                                    }
+                                    else if(value2.price) {
+                                        $('#search_new').append(
+                                            '<tr>' +
+                                            '<td>' + value2.product_name +
+                                            '</td>' +
+                                            '<td>' + value2.price +
+                                            '</td>' +
+                                            '<td>' + value2.tax +
+                                            '</td>' +
+                                            '</tr>'
+                                        );
+                                    }
+                                });
+                            });
+                        }
 
-        setTimeout(function () {
-            body.removeChild(child);
-        }, 3000);
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script>
-    @if (Session('message'))
-        toastr.options.closeButton = true;
-        toastr.options.showMethod = 'slideDown';
-toastr.options.hideMethod = 'slideUp';
-toastr.options.closeMethod = 'slideUp';
-        toastr.success("{{ Session('message') }}")
-    @endif
-</script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    $('#delete').click(function(e){
-        e.preventDefault();
-        let url = $(this).attr('href');
-        Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href=url;
-        }
-        })
-    });
-</script>
+                    }
+
+                });
+            }
+        });
+    </script>
 
 </body>
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\BakiController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\InvoiceManagerController;
+use App\Http\Controllers\LiveSearchController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\UserController;
@@ -32,7 +33,11 @@ Route::get('/home', function () {
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 Route::middleware('isAdmin')->group(function(){
     // product controller
-    Route::get('/dashboard',[ProductsController::class,'index'])->name('dashboard');
+    Route::get('/dashboard',[UserController::class,'dashboard'])->name('dashboard');
+    Route::get('/setting',[UserController::class,'setting'])->name('setting');
+    Route::post('/setting/update',[UserController::class,'update'])->name('setting.update');
+    Route::get('/product',[ProductsController::class,'index'])->name('product.index');
+    Route::get('/product/add',[ProductsController::class,'add'])->name('product.add');
     Route::get('/product/edit/{id}',[ProductsController::class,'edit'])->name('product.edit');
     Route::post('/product/update/{id}',[ProductsController::class,'update'])->name('product.update');
     Route::post('/product/store',[ProductsController::class,'store'])->name('product.store');
@@ -40,12 +45,18 @@ Route::middleware('isAdmin')->group(function(){
     // invoice controller
     Route::get('/invoice',[InvoiceManagerController::class,'index'])->name('invoice.manager');
     Route::get('/invoice/getprice/{id}',[InvoiceManagerController::class,'getPrice'])->name('invoice.get_price');
-    Route::post('/invoice/export-pdf',[InvoiceManagerController::class,'exportPdf'])->name('invoice.export_pdf');
+    Route::post('/invoice/export-pdf/{id}',[InvoiceManagerController::class,'exportPdf'])->name('invoice.export_pdf');
     // sales controller
     Route::get('/sales',[SalesController::class,'index'])->name('sales.index');
-    Route::get('/sales/{date}',[SalesController::class,'getData'])->name('sales.getData');
+    Route::get('/sales/{date}',[SalesController::class,'search'])->name('sales.search');
+    Route::get('/export',[SalesController::class,'export'])->name('sales.export');
     // baki controller
     Route::get('/baki',[BakiController::class,'index'])->name('baki.index');
+    Route::get('/baki/add',[BakiController::class,'add'])->name('baki.add');
+    Route::post('/baki/sore',[BakiController::class,'store'])->name('baki.store');
+    Route::get('/baki/setPaid/{id}',[BakiController::class,'setPaid'])->name('baki.setPaid');
+    //live search controller
+    Route::get('/live-search/{data}',[LiveSearchController::class,'liveSearch'])->name('live.search');
 });
 
 
